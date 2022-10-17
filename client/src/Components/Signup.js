@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { CreateContext } from "../utils/CreateContext";
+import axios from "axios";
 import {
   Spinner,
   Alert,
@@ -23,7 +24,10 @@ const Signup = () => {
     cpassword: "",
     isSatisfyTerms: "",
   });
-
+  const connectGoogle=async()=>{
+    let res= await axios.get("/auth/google");
+    console.log(await res.json());
+  }
   const onChangeData = async (e) => {
     
     let name = e.target.name;
@@ -172,8 +176,9 @@ const Signup = () => {
               <button
                 type="button"
                 className="w-full text-center py-3 rounded bg-red-400 text-white hover:bg-green-dark focus:outline-none my-1"
+                onClick={connectGoogle}
               >
-                <NavLink to="/auth/google">Sign-in With Google</NavLink>
+                Sign-in With Google
               </button>
             </form>
           </div>

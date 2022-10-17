@@ -1,19 +1,25 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 export const CreateContext = createContext();
 
 const CreateContextProvider = ({ children }) => {
+  const history = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
   const login = async ({ email, password }) => {
     try {
       let response = axios.post("/api/signin", {
         email,
         password,
       });
-      // axios.get("/api/primary-market");
-     
-      return  (await response).data;
+      
+      setLoggedIn(true);
+      history("/api/primary-market");
+      return (await response).data;
     } catch (error) {
       console.log(error);
+      setLoggedIn(false);
+      history("/api/login");
       return await error.response.data;
     }
   };
@@ -38,16 +44,17 @@ const CreateContextProvider = ({ children }) => {
         cpassword,
         isSatisfyTerms,
       });
-      // axios.get("/api/login");
+      history("/api/login");
       return await response.data;
     } catch (error) {
       console.log("Error in register component");
+      history("/api/signup");
       return await error.response.data;
     }
   };
   return (
     <>
-      <CreateContext.Provider value={{ register, login }}>
+      <CreateContext.Provider value={{ register, login, loggedIn }}>
         {children}
       </CreateContext.Provider>
     </>

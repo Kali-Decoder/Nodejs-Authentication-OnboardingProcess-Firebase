@@ -8,10 +8,10 @@ import CreateContextProvider from "./utils/CreateContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
-    <CreateContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <CreateContextProvider>
         <App />
-      </BrowserRouter>
-    </CreateContextProvider>
+      </CreateContextProvider>
+    </BrowserRouter>
   </ChakraProvider>
 );
