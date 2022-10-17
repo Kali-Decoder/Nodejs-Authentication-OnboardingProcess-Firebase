@@ -4,6 +4,7 @@ const app = express();
 var cookieSession = require('cookie-session')
 const passport = require("passport");
 require("dotenv").config();
+
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 //Middleware
 app.use(cookieSession({
@@ -15,7 +16,7 @@ app.use(cookieSession({
 }))
 
 app.use(passport.initialize()); // init passport on every route call
-app.use(passport.session()); //allow passport to use "express-session"
+app.use(passport.session()); //allow passport to use "cookie-session"
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,6 +45,7 @@ passport.serializeUser((user, done) => {
   // serializeUser() will attach this user to "req.session.passport.user.{user}", so that it is tied to the session object for each session.
 
   done(null, user);
+  
 });
 passport.deserializeUser((user, done) => {
   console.log("\n--------- Deserialized User:");

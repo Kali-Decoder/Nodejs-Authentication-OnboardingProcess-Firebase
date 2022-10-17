@@ -81,7 +81,7 @@ exports.signin = async (req, res) => {
           expiresIn: "1h",
         }
       );
-      req.session.token=token;
+      req.session.token = token;
       console.log(req.session);
       res.redirect(`/api/primary-market`);
       return;
@@ -95,16 +95,24 @@ exports.signin = async (req, res) => {
   return;
 };
 
-exports.forgetPassword = (req, res) => {
+exports.forgetPassword = async (req, res) => {
   if (!req.body.email) {
     return res.status(422).json({ email: "email is required" });
   }
-  let createToken = crypto.randomBytes(32).toString("hex");
-  console.log(createToken);
-  req.session.token = createToken;
-  req.session.email = req.body.email;
-  let link = `http://localhost:3000/api/reset-password/${createToken}`;
-  sendMail("20bec027iiitdwd.ac.in", "Password Reset Request", link);
-  console.log(link);
-  res.redirect("/api/login");
+  try {
+    let token = await jwt.sign(
+      { email: req.body.email, isAuthorised: true },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 100,
+      }
+    );
+    req.session.forgotPasswordToken= token;
+    let link = `http://localhost:3000/api/reset-password/${token}`;
+    sendMail(req.body.email, "Password Reset Request", link);
+    console.log(link);
+    res.redirect("/api/login");
+  } catch (error) {
+    console.log(error);
+  }
 };

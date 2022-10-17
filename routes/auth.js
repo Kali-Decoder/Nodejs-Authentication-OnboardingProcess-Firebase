@@ -37,7 +37,7 @@ router.get("/signup", (req, res) => {
       <input type="checkbox" checked="checked" name="isSatisfyTerms" style="margin-bottom:15px"> Remember me <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
     </label>
       <button type="button" class="cancelbtn"><a href="/api/login" >Signin</a></button>
-      <button type="button" class="cancelbtn"><a href="/auth/google" >Login With Google</a></button>
+      <button type="button" class="cancelbtn"><a href="/auth/google" >Signup With Google</a></button>
       <button type="submit" class="signupbtn">Create My Account</button>
     
   </div>
@@ -84,9 +84,9 @@ router.get("/forgot", (req, res) => {
     <hr>
 
     <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+    <input type="email" placeholder="Enter Email" name="email" required>
 
-      <button type="submit" class="signupbtn">Countinue</button>
+      <button type="submit">Countinue</button>
       
 
   </div>
@@ -95,13 +95,14 @@ router.get("/forgot", (req, res) => {
 });
 
 router.get("/reset-password/:token", (req, res) => {
-  console.log(req.session);
-
-  res.send(`<form action="/api/reset" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
+  if (req.params.token == req.session.forgotPasswordToken) {
+    res.send(`<form action="/api/reset" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
   <div class="container">
     <h1>Reset Password Request</h1>
     <p>Please fill in this form to Reset password.</p>
     <hr>
+
+    <input type="email" placeholder="Enter Email" name="email" required>
     <input type="password" placeholder="Enter New Password" name="password" required>
     <input type="password" placeholder="Enter Confirm Password" name="cpassword" required>
 
@@ -110,12 +111,13 @@ router.get("/reset-password/:token", (req, res) => {
 
   </div>
 </form>`);
+  } else {
+    res.send("Your Session Is Expired <a href='/api/login'>Login</a>");
+  }
 });
 router.post("/forgot", forgetPassword);
 router.post("/signup", signup);
 
 router.post("/signin", signin);
-
-router.post("/forget-password", forgetPassword);
 
 module.exports = router;
