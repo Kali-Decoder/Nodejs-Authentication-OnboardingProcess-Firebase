@@ -25,7 +25,7 @@ const Signup = () => {
   });
 
   const onChangeData = async (e) => {
-    setIsLoading();
+    
     let name = e.target.name;
     let value = e.target.value;
     if (e.target.name == "isSatisfyTerms") {
@@ -48,13 +48,16 @@ const Signup = () => {
       cpassword: "",
       isSatisfyTerms: "",
     });
+    console.log(data)
     setErrorText(data.message);
 
     setIsLoading(false);
 
-    setInterval(()=>{
-        setErrorText("");
-    },1000)
+    setInterval(() => {
+      setErrorText("");
+    }, 3000);
+
+
   };
   return (
     <>
@@ -62,108 +65,117 @@ const Signup = () => {
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center">Sign up</h1>
-            <input
-              type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="fname"
-              placeholder="First Name"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.fname}
-            />
-            <input
-              type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="lname"
-              placeholder="Last Name"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.lname}
-            />
-
-            <input
-              type="text"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="email"
-              placeholder="Email"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.email}
-            />
-            <input
-              type="number"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="phone"
-              max={10}
-              min={10}
-              placeholder="Phone Number"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.phone}
-            />
-
-            <input
-              type="date"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="dob"
-              placeholder="Date Of Birth"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.dob}
-            />
-            <input
-              type="password"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="password"
-              placeholder="Password"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.password}
-            />
-            <input
-              type="password"
-              className="block border border-grey-light w-full p-3 rounded mb-4"
-              name="cpassword"
-              placeholder="Confirm Password"
-              required
-              onChange={(e) => onChangeData(e)}
-              value={signupData.cpassword}
-            />
-            <div className="text-center text-sm text-grey-dark mt-4">
+            {errorText ? (
+              <Alert status="success">
+                <AlertIcon />
+                {errorText}
+              </Alert>
+            ) : null}
+            <form>
               <input
-                type="checkbox"
-                className="mx-2"
-                name="isSatisfyTerms"
+                type="text"
+                className="block mt-2 border border-grey-light w-full p-3 rounded mb-4"
+                name="fname"
+                placeholder="First Name"
+                required
                 onChange={(e) => onChangeData(e)}
+                value={signupData.fname}
               />
-              By signing up, you agree to the
-              <a
-                className="no-underline border-b border-blue-500 text-grey-dark mx-2"
-                to="#"
+              <input
+                type="text"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="lname"
+                placeholder="Last Name"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.lname}
+              />
+
+              <input
+                type="text"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.email}
+              />
+              <input
+                type="number"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="phone"
+                max={10}
+                min={10}
+                placeholder="Phone Number"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.phone}
+              />
+
+              <input
+                type="date"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="dob"
+                placeholder="Date Of Birth"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.dob}
+              />
+              <input
+                type="password"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="password"
+                placeholder="Password"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.password}
+              />
+              <input
+                type="password"
+                className="block border border-grey-light w-full p-3 rounded mb-4"
+                name="cpassword"
+                placeholder="Confirm Password"
+                required
+                onChange={(e) => onChangeData(e)}
+                value={signupData.cpassword}
+              />
+              <div className="text-center text-sm text-grey-dark mt-4">
+                <input
+                  type="checkbox"
+                  className="mx-2"
+                  name="isSatisfyTerms"
+                  onChange={(e) => onChangeData(e)}
+                  required
+                />
+                By signing up, you agree to the
+                <a
+                  className="no-underline border-b border-blue-500 text-grey-dark mx-2"
+                  to="#"
+                >
+                  Terms of Service
+                </a>
+                and
+                <a
+                  className="no-underline border-b border-blue-400 mx-2 text-grey-dark"
+                  to="#"
+                >
+                  Privacy Policy
+                </a>
+              </div>
+              <button
+                type="submit"
+                className="w-full text-center py-3 rounded bg-green-400 text-white hover:bg-green-dark focus:outline-none my-1 mt-5"
+                onClick={onClick}
               >
-                Terms of Service
-              </a>
-              and
-              <a
-                className="no-underline border-b border-blue-400 mx-2 text-grey-dark"
-                to="#"
+                {loading ? <Spinner /> : "Create Account"}
+              </button>
+              <button
+                type="button"
+                className="w-full text-center py-3 rounded bg-red-400 text-white hover:bg-green-dark focus:outline-none my-1"
               >
-                Privacy Policy
-              </a>
-            </div>
-            <button
-              type="submit"
-              className="w-full text-center py-3 rounded bg-green-400 text-white hover:bg-green-dark focus:outline-none my-1 mt-5"
-              onClick={onClick}
-            >
-              {loading ? <Spinner /> : "Create Account"}
-            </button>
-            <button
-              type="submit"
-              className="w-full text-center py-3 rounded bg-red-400 text-white hover:bg-green-dark focus:outline-none my-1"
-            >
-              <NavLink to="/auth/google">Sign-in With Google</NavLink>
-            </button>
+                <NavLink to="/auth/google">Sign-in With Google</NavLink>
+              </button>
+            </form>
           </div>
 
           <div className="text-grey-dark mt-6">

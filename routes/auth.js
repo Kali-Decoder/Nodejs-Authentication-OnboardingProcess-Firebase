@@ -44,80 +44,79 @@ const { signup, signin, forgetPassword } = require("../controllers/auth");
 // </form>`);
 // });
 
-router.get("/login", (req, res) => {
-  res.send(`<form action="/api/signin" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
-  <div class="container">
-    <h1>Login</h1>
-    <p>Please fill in this form to create an account.</p>
-    <hr>
+// router.get("/login", (req, res) => {
+//   res.send(`<form action="/api/signin" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
+//   <div class="container">
+//     <h1>Login</h1>
+//     <p>Please fill in this form to create an account.</p>
+//     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
-
-    
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-
-
+//     <label for="email"><b>Email</b></label>
+//     <input type="text" placeholder="Enter Email" name="email" required>
 
     
-    <button type="button" class="cancelbtn"><a href="/api/signup" >Rgister First</a></button>
-      <button type="submit" class="signupbtn">Login</button>
-      <a href="/api/forgot">forgot Password</a>
+//     <label for="psw"><b>Password</b></label>
+//     <input type="password" placeholder="Enter Password" name="password" required>
 
-  </div>
-</form>`);
-});
+
+
+    
+//     <button type="button" class="cancelbtn"><a href="/api/signup" >Rgister First</a></button>
+//       <button type="submit" class="signupbtn">Login</button>
+//       <a href="/api/forgot">forgot Password</a>
+
+//   </div>
+// </form>`);
+// });
 
 // Define the Logout
-router.get("/logout", (req, res) => {
-  req.session.token = "";
-  res.redirect("/api/login");
-  console.log(`-------> User Logged out`);
-});
-router.get("/forgot", (req, res) => {
-  res.send(`
-  <form action="/api/forgot" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
-  <div class="container">
-    <h1>Forgot Password Request</h1>
-    <p>Please fill in this form to recover password.</p>
-    <hr>
+// router.get("/logout", (req, res) => {
+//   req.session.token = "";
+//   res.redirect("/api/login");
+//   console.log(`-------> User Logged out`);
+// });
+// router.get("/forgot", (req, res) => {
+//   res.send(`
+//   <form action="/api/forgot" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
+//   <div class="container">
+//     <h1>Forgot Password Request</h1>
+//     <p>Please fill in this form to recover password.</p>
+//     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="email" placeholder="Enter Email" name="email" required>
+//     <label for="email"><b>Email</b></label>
+//     <input type="email" placeholder="Enter Email" name="email" required>
 
-      <button type="submit">Countinue</button>
+//       <button type="submit">Countinue</button>
       
 
-  </div>
-</form>
-  `);
-});
+//   </div>
+// </form>
+//   `);
+// });
 
-router.get("/reset-password/:token", (req, res) => {
-  if (req.params.token == req.session.forgotPasswordToken) {
-    res.send(`<form action="/api/reset" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
-  <div class="container">
-    <h1>Reset Password Request</h1>
-    <p>Please fill in this form to Reset password.</p>
-    <hr>
+// router.get("/reset-password/:token", (req, res) => {
+//   if (req.params.token == req.session.forgotPasswordToken) {
+//     res.send(`<form action="/api/reset" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
+//   <div class="container">
+//     <h1>Reset Password Request</h1>
+//     <p>Please fill in this form to Reset password.</p>
+//     <hr>
 
-    <input type="email" placeholder="Enter Email" name="email" required>
-    <input type="password" placeholder="Enter New Password" name="password" required>
-    <input type="password" placeholder="Enter Confirm Password" name="cpassword" required>
+//     <input type="email" placeholder="Enter Email" name="email" required>
+//     <input type="password" placeholder="Enter New Password" name="password" required>
+//     <input type="password" placeholder="Enter Confirm Password" name="cpassword" required>
 
-      <button type="submit" class="signupbtn">Reset</button>
+//       <button type="submit" class="signupbtn">Reset</button>
       
 
-  </div>
-</form>`);
-  } else {
-    res.send("Your Session Is Expired <a href='/api/login'>Login</a>");
-  }
-});
+//   </div>
+// </form>`);
+//   } else {
+//     res.send("Your Session Is Expired <a href='/api/login'>Login</a>");
+//   }
+// });
 router.post("/forgot", forgetPassword);
 router.post("/signup", signup);
-
 router.post("/signin", signin);
 
 module.exports = router;

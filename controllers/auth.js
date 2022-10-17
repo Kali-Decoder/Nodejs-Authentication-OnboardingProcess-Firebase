@@ -48,9 +48,14 @@ exports.signup = async (req, res) => {
     phone,
     isSatisfyTerms: isSatisfyTerms === "on" ? true : false,
   });
-  return res
-    .status(200)
-    .json({ message: "Register Successfully ", isTrue: true });
+  // let x = await sendEmail(
+  //   "neerajchoubisa876@gmail.com",
+  //   "Verification For Signup ",
+  //   "From Zoth Io"
+  // );
+
+  // res.redirect("/api/login");
+  res.status(200).json({ message: "Register Successfully " });
 };
 
 // signin
@@ -60,7 +65,8 @@ exports.signin = async (req, res) => {
     //   email: "email is required",
     //   password: "password is required",
     // });
-    res.redirect("/api/login");
+    // res.redirect("/api/login");
+    return res.status(404).json({message:"Please Fill All Details "})
   }
 
   let snapshot = await Users.get();
@@ -77,17 +83,20 @@ exports.signin = async (req, res) => {
         }
       );
       req.session.token = token;
-      console.log(req.session);
-      res.redirect(`/api/primary-market`);
-      return;
+      // console.log(req.session);
+      // res.redirect(`/api/primary-market`);
+      
+      return res.status(200).json({message:"You Are Logged In"});
     }
-    res.redirect("/api/login");
-    return;
+   
+    // return res.redirect("/api/login");
+    return res.status(402).json({message:"You Are Not Authorised"})
   }
   req.session.isAuthorised = false;
-  // res.status(422).json({ message: "Account Not Exist Please Signup First" });
-  res.redirect("/api/login");
-  return;
+  return res.status(422).json({ message: "Account Not Exist Please Signup First" });
+  // res.redirect("/api/login");
+  // return res.status(402).json({message:"You Are Not Authorised"})
+ 
 };
 
 exports.forgetPassword = async (req, res) => {
@@ -102,7 +111,7 @@ exports.forgetPassword = async (req, res) => {
         expiresIn: 100,
       }
     );
-    req.session.forgotPasswordToken = token;
+    req.session.forgotPasswordToken= token;
     let link = `http://localhost:3000/api/reset-password/${token}`;
     sendMail(req.body.email, "Password Reset Request", link);
     console.log(link);

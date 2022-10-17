@@ -8,7 +8,8 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import { CreateContext } from "../utils/CreateContext";
-const Login = () => {
+
+const ForgetPassword = () => {
   const { login } = useContext(CreateContext);
   const [loginData, setLoginData] = useState({
     email: "",
@@ -28,23 +29,21 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     let data = await login(loginData);
-
-    setErrorText(data.message);
-    setLoginData({
-      email: "",
-      password: "",
-    });
-    setIsLoading(false);
-    setInterval(() => {
-      setErrorText("");
-    }, 3000);
+    console.log("login", data);
+    // setErrorText(data.message);
+    // setLoginData({
+    //   email: "",
+    //   password: "",
+    // });
+    // setIsLoading(false);
+    // setInterval(() => {
+    //   setErrorText("");
+    // }, 3000);
   };
-
   return (
     <>
       <div className="flex justify-center items-center">
         <div className="bg-white shadow-md rounded w-1/2 px-8 pt-6 pb-8 mb-4 flex flex-col">
-          <h1 className="mb-8 text-3xl text-center">Login</h1>
           <form>
             <div className="mb-4">
               {errorText ? (
@@ -108,7 +107,7 @@ const Login = () => {
               </div>
               <NavLink
                 className="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
-                to="/api/forget-password"
+                to="/api/forgot"
               >
                 Forgot Password?
               </NavLink>
@@ -120,4 +119,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgetPassword;

@@ -20,7 +20,7 @@ app.use(passport.session()); //allow passport to use "cookie-session"
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(require("cors")());
+// app.use(require("cors")());
 
 authUser = (request, accessToken, refreshToken, profile, done) => {
   return done(null, profile);
@@ -84,7 +84,7 @@ app.get(
 //   res.send(`<a href="/api/signup">Signup</a>`);
 // });
 
-const port = 3000;
+const port = 5000;
 
 // Starting a server
 app.listen(port, () => {

@@ -3,6 +3,20 @@ import axios from "axios";
 export const CreateContext = createContext();
 
 const CreateContextProvider = ({ children }) => {
+  const login = async ({ email, password }) => {
+    try {
+      let response = axios.post("/api/signin", {
+        email,
+        password,
+      });
+      // axios.get("/api/primary-market");
+     
+      return  (await response).data;
+    } catch (error) {
+      console.log(error);
+      return await error.response.data;
+    }
+  };
   const register = async ({
     lname,
     fname,
@@ -14,7 +28,7 @@ const CreateContextProvider = ({ children }) => {
     isSatisfyTerms,
   }) => {
     try {
-      let response = await axios.post("http://localhost:3000/api/signup", {
+      let response = await axios.post("/api/signup", {
         lname,
         fname,
         email,
@@ -24,16 +38,16 @@ const CreateContextProvider = ({ children }) => {
         cpassword,
         isSatisfyTerms,
       });
-
-      return response.data;
+      // axios.get("/api/login");
+      return await response.data;
     } catch (error) {
       console.log("Error in register component");
-      console.log(error);
+      return await error.response.data;
     }
   };
   return (
     <>
-      <CreateContext.Provider value={{ register }}>
+      <CreateContext.Provider value={{ register, login }}>
         {children}
       </CreateContext.Provider>
     </>
