@@ -20,6 +20,7 @@ app.use(passport.session()); //allow passport to use "cookie-session"
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(require("cors")());
 
 authUser = (request, accessToken, refreshToken, profile, done) => {
   return done(null, profile);
@@ -79,9 +80,9 @@ app.get(
 // app.get("/login", (req, res) => {
 //   res.send("You Are Logged In");
 // });
-app.get("/", (req, res) => {
-  res.send(`<a href="/api/signup">Signup</a>`);
-});
+// app.get("/", (req, res) => {
+//   res.send(`<a href="/api/signup">Signup</a>`);
+// });
 
 const port = 3000;
 

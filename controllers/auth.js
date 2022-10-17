@@ -7,7 +7,7 @@ var jwt = require("jsonwebtoken");
 // const sendEmail = require("../utils/nodemailer");
 // signup
 exports.signup = async (req, res) => {
-  console.log(req.body);
+  
   let { fname, lname, email, password, cpassword, dob, phone, isSatisfyTerms } =
     req.body;
 
@@ -48,14 +48,9 @@ exports.signup = async (req, res) => {
     phone,
     isSatisfyTerms: isSatisfyTerms === "on" ? true : false,
   });
-  // let x = await sendEmail(
-  //   "neerajchoubisa876@gmail.com",
-  //   "Verification For Signup ",
-  //   "From Zoth Io"
-  // );
-
-  res.redirect("/api/login");
-  // res.status(200).json({ message: "Register Successfully " });
+  return res
+    .status(200)
+    .json({ message: "Register Successfully ", isTrue: true });
 };
 
 // signin
@@ -107,7 +102,7 @@ exports.forgetPassword = async (req, res) => {
         expiresIn: 100,
       }
     );
-    req.session.forgotPasswordToken= token;
+    req.session.forgotPasswordToken = token;
     let link = `http://localhost:3000/api/reset-password/${token}`;
     sendMail(req.body.email, "Password Reset Request", link);
     console.log(link);

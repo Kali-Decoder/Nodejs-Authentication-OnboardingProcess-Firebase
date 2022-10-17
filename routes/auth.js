@@ -3,46 +3,46 @@ const router = express.Router();
 require("dotenv").config();
 const { signup, signin, forgetPassword } = require("../controllers/auth");
 
-router.get("/signup", (req, res) => {
-  res.send(`<form action="/api/signup" itemtype="multipart/form-data"  method="POST"   style="border:1px solid #ccc">
-  <div class="container">
-    <h1>Sign Up</h1>
-    <p>Please fill in this form to create an account.</p>
-    <hr>
+// router.get("/signup", (req, res) => {
+//   res.send(`<form action="/api/signup" itemtype="multipart/form-data"  method="POST"   style="border:1px solid #ccc">
+//   <div class="container">
+//     <h1>Sign Up</h1>
+//     <p>Please fill in this form to create an account.</p>
+//     <hr>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+//     <label for="email"><b>Email</b></label>
+//     <input type="text" placeholder="Enter Email" name="email" required>
 
-    <label for="psw"><b>Fname</b></label>
-    <input type="text" placeholder="Enter Fname" name="fname" value="" required>
+//     <label for="psw"><b>Fname</b></label>
+//     <input type="text" placeholder="Enter Fname" name="fname" value="" required>
 
-    <label for="psw"><b>Lname</b></label>
-    <input type="text" placeholder="Enter Lname" name="lname" required>
+//     <label for="psw"><b>Lname</b></label>
+//     <input type="text" placeholder="Enter Lname" name="lname" required>
 
-    <label for="psw"><b>DOB</b></label>
-    <input type="date" placeholder="Enter DOB" name="dob" required>
+//     <label for="psw"><b>DOB</b></label>
+//     <input type="date" placeholder="Enter DOB" name="dob" required>
 
-    <label for="phone"><b>number</b></label>
-    <input type="number" placeholder="Enter Phone Number" name="phone" required>
+//     <label for="phone"><b>number</b></label>
+//     <input type="number" placeholder="Enter Phone Number" name="phone" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
+//     <label for="psw"><b>Password</b></label>
+//     <input type="password" placeholder="Enter Password" name="password" required>
 
 
-    <label for="psw-repeat"><b>Confirm Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="cpassword" required>
-    <br/>
-    <br/>
-    <label>
-      <input type="checkbox" checked="checked" name="isSatisfyTerms" style="margin-bottom:15px"> Remember me <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-    </label>
-      <button type="button" class="cancelbtn"><a href="/api/login" >Signin</a></button>
-      <button type="button" class="cancelbtn"><a href="/auth/google" >Signup With Google</a></button>
-      <button type="submit" class="signupbtn">Create My Account</button>
+//     <label for="psw-repeat"><b>Confirm Password</b></label>
+//     <input type="password" placeholder="Repeat Password" name="cpassword" required>
+//     <br/>
+//     <br/>
+//     <label>
+//       <input type="checkbox" checked="checked" name="isSatisfyTerms" style="margin-bottom:15px"> Remember me <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+//     </label>
+//       <button type="button" class="cancelbtn"><a href="/api/login" >Signin</a></button>
+//       <button type="button" class="cancelbtn"><a href="/auth/google" >Signup With Google</a></button>
+//       <button type="submit" class="signupbtn">Create My Account</button>
     
-  </div>
-</form>`);
-});
+//   </div>
+// </form>`);
+// });
 
 router.get("/login", (req, res) => {
   res.send(`<form action="/api/signin" itemtype="multipart/form-data"  method="POST"  style="border:1px solid #ccc">
