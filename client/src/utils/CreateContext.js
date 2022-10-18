@@ -20,24 +20,44 @@ const CreateContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  const getMarketDataByCity = async (city) => {
-    console.log(city);
-    let data = await getMarketAllData();
-    data = data.filter(
-      (item) => item.location.toUpperCase() === city.toUpperCase()
-    );
-    console.log(data);
-    setMarketData(data);
+  const getFilterData = async (type, city) => {
+    try {
+      let data = await getMarketAllData();
+      if (!type && !city) {
+        setMarketData(data);
+      } else if (!type && city) {
+        data = data.filter(
+          (item) => item.location.toUpperCase() === city.toUpperCase()
+        );
+        setMarketData(data);
+      } else if (!city && type) {
+        data = data.filter((item) => item.category === type);
+        setMarketData(data);
+      } else {
+        data = data.filter(
+          (item) => item.location.toUpperCase() === city.toUpperCase()
+        );
+        data = data.filter((item) => item.category === type);
+        setMarketData(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+  // const getMarketDataByCity = async (city) => {
+  //   let data = await getMarketAllData();
 
-  const getMarketDataByCategory = async (type) => {
-    let data = await getMarketAllData();
+  //   console.log(data);
+  //   setMarketData(data);
+  // };
 
-    data = data.filter((item) => item.category === type);
-    console.log(data);
-    setMarketData(data);
-  };
+  // const getMarketDataByCategory = async (type) => {
+  //   let data = await getMarketAllData();
+
+  //   data = data.filter((item) => item.category === type);
+  //   console.log(data);
+  //   setMarketData(data);
+  // };
   const [loggedIn, setLoggedIn] = useState(false);
   const login = async ({ email, password }) => {
     try {
@@ -119,8 +139,7 @@ const CreateContextProvider = ({ children }) => {
           marketLoader,
           getMarketAllData,
           loginGoogle,
-          getMarketDataByCity,
-          getMarketDataByCategory,
+          getFilterData
         }}
       >
         {children}

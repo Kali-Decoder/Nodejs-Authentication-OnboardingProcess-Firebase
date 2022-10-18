@@ -11,10 +11,10 @@ const AssetTile = ({ item }) => {
   return (
     <>
       <div>
-        <a
+        {/* <a
           href={`/api/singl-asset/${item.id}`}
           className="block h-64 rounded-lg shadow-lg bg-white"
-        ></a>
+        ></a> */}
 
         <div className="flex flex-col mt-2 w-full p-4">
           <div className="flex justify-between border-red-700">

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AssetTile from "./AssetTile";
 import {
   Select,
@@ -14,13 +14,18 @@ import {
 } from "@chakra-ui/react";
 import { CreateContext } from "../utils/CreateContext";
 const Marketplace = () => {
+  const [cityfilter, setCityFilter] = useState("");
+  const [typefilter, setTypeFilter] = useState("");
+
   const {
     marketData,
     marketLoader,
     getMarketAllData,
-    getMarketDataByCity,
-    getMarketDataByCategory,
+    getFilterData
   } = useContext(CreateContext);
+  useEffect(()=>{
+    getFilterData(typefilter,cityfilter);
+  },[cityfilter,typefilter]);
   return (
     <>
       <div className="flex w-full p-5 flex-col">
@@ -31,7 +36,8 @@ const Marketplace = () => {
               placeholder="Assets Category"
               borderBlock="primary"
               width={60}
-              onChange={(e) => getMarketDataByCategory(e.target.value)}
+              name="type"
+              onChange={(e) => setTypeFilter(e.target.value)}
             >
               <option
                 value="Commercial Real Estate"
@@ -48,8 +54,9 @@ const Marketplace = () => {
               className="mx-2"
               placeholder="Cities"
               borderBlock="primary"
+              name="city"
               width={40}
-              onChange={(e) => getMarketDataByCity(e.target.value)}
+              onChange={(e) => setCityFilter(e.target.value)}
             >
               <option value="Udaipur" className="text-black bg-slate-700">
                 Udaipur
