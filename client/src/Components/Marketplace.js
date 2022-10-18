@@ -14,7 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { CreateContext } from "../utils/CreateContext";
 const Marketplace = () => {
-  const { marketData, marketLoader,getMarketAllData } = useContext(CreateContext);
+  const {
+    marketData,
+    marketLoader,
+    getMarketAllData,
+    getMarketDataByCity,
+    getMarketDataByCategory,
+  } = useContext(CreateContext);
   return (
     <>
       <div className="flex w-full p-5 flex-col">
@@ -25,13 +31,17 @@ const Marketplace = () => {
               placeholder="Assets Category"
               borderBlock="primary"
               width={60}
+              onChange={(e) => getMarketDataByCategory(e.target.value)}
             >
-              <option value="option1" className="text-black bg-slate-700">
+              <option
+                value="Commercial Real Estate"
+                className="text-black bg-slate-700"
+              >
                 Commercial Real Estate
               </option>
-              <option value="option2"> Art </option>
-              <option value="option2"> Bonds </option>
-              <option value="option3">Private Equity </option>
+              <option value="Art"> Art </option>
+              <option value="Bonds"> Bonds </option>
+              <option value="Private Equity">Private Equity </option>
             </Select>
             <Select
               color="black"
@@ -39,13 +49,14 @@ const Marketplace = () => {
               placeholder="Cities"
               borderBlock="primary"
               width={40}
+              onChange={(e) => getMarketDataByCity(e.target.value)}
             >
-              <option value="option1" className="text-black bg-slate-700">
+              <option value="Udaipur" className="text-black bg-slate-700">
                 Udaipur
               </option>
-              <option value="option2"> Mumbai </option>
-              <option value="option2"> Goa </option>
-              <option value="option3"> Panji </option>
+              <option value="Mumbai"> Mumbai </option>
+              <option value="Goa"> Goa </option>
+              <option value="Panji"> Panji </option>
             </Select>
           </div>
           {/* <div className="w-1/2">
@@ -68,11 +79,11 @@ const Marketplace = () => {
             </Tabs>
           </div>
         </div>
-        <div class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-12 w-full mt-6">
+        <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-12 w-full mt-6">
           {marketLoader ? (
             <Spinner />
           ) : (
-            marketData.map((item) => <AssetTile key={item} item={item} />)
+            marketData.map((item, i) => <AssetTile key={i} item={item} />)
           )}
         </div>
       </div>

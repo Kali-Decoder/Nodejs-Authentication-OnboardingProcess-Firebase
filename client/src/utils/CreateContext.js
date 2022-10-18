@@ -15,9 +15,28 @@ const CreateContextProvider = ({ children }) => {
       setMarketData(data.data);
 
       setMarketLoader(false);
+      return data.data;
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getMarketDataByCity = async (city) => {
+    console.log(city);
+    let data = await getMarketAllData();
+    data = data.filter(
+      (item) => item.location.toUpperCase() === city.toUpperCase()
+    );
+    console.log(data);
+    setMarketData(data);
+  };
+
+  const getMarketDataByCategory = async (type) => {
+    let data = await getMarketAllData();
+
+    data = data.filter((item) => item.category === type);
+    console.log(data);
+    setMarketData(data);
   };
   const [loggedIn, setLoggedIn] = useState(false);
   const login = async ({ email, password }) => {
@@ -68,7 +87,7 @@ const CreateContextProvider = ({ children }) => {
   };
 
   const loginGoogle = async (code) => {
-    console.log("code",code);
+    console.log("code", code);
     let res = await axios.post("/api/google", { code });
     console.log(res);
     // return fetch('/api/google', {
@@ -100,6 +119,8 @@ const CreateContextProvider = ({ children }) => {
           marketLoader,
           getMarketAllData,
           loginGoogle,
+          getMarketDataByCity,
+          getMarketDataByCategory,
         }}
       >
         {children}
