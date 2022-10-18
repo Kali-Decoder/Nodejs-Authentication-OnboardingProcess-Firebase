@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import AssetTile from "./AssetTile";
 import {
   Select,
@@ -10,8 +10,11 @@ import {
   SliderFilledTrack,
   SliderThumb,
   Box,
+  Spinner,
 } from "@chakra-ui/react";
+import { CreateContext } from "../utils/CreateContext";
 const Marketplace = () => {
+  const { marketData, marketLoader,getMarketAllData } = useContext(CreateContext);
   return (
     <>
       <div className="flex w-full p-5 flex-col">
@@ -58,7 +61,7 @@ const Marketplace = () => {
           <div className="flex">
             <Tabs variant="line" colorScheme="green" color="black">
               <TabList>
-                <Tab>All</Tab>
+                <Tab onClick={getMarketAllData}>All</Tab>
                 <Tab>Latest</Tab>
                 <Tab>Upcoming</Tab>
               </TabList>
@@ -66,9 +69,11 @@ const Marketplace = () => {
           </div>
         </div>
         <div class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-12 w-full mt-6">
-          {[1, 2, 3, 4, 5, 6, 7].map((item) => (
-            <AssetTile key={item} />
-          ))}
+          {marketLoader ? (
+            <Spinner />
+          ) : (
+            marketData.map((item) => <AssetTile key={item} item={item} />)
+          )}
         </div>
       </div>
     </>

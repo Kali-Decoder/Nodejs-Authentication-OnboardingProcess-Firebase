@@ -62,20 +62,18 @@ const marketRoutes = require("./routes/market.routes");
 
 app.use("/api", authRoutes);
 app.use("/api", marketRoutes);
-app.get("/auth/google", 
-   passport.authenticate("google", { scope: ["email", "profile"] })
- );
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
 
 app.get(
   "/auth/google/callback",
 
-  (req, res) => {
-    console.log("Hello World");
-    passport.authenticate("google", {
-      successRedirect: "/api/primary-market",
-      failureRedirect: "/api/signup",
-    });
-  }
+  passport.authenticate("google", {
+    successRedirect: "/api/primary-market",
+    failureRedirect: "/api/signup",
+  })
 );
 
 //Define the Login Route
@@ -83,9 +81,9 @@ app.get(
 // app.get("/login", (req, res) => {
 //   res.send("You Are Logged In");
 // });
-// app.get("/", (req, res) => {
-//   res.send(`<a href="/api/signup">Signup</a>`);
-// });
+app.get("/", (req, res) => {
+  res.send(`<a href="/api/signup">Signup</a>`);
+});
 
 const port = 5000;
 

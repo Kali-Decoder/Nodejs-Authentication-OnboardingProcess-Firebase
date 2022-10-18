@@ -9,6 +9,7 @@ import {
   AlertTitle,
   AlertDescription,
 } from "@chakra-ui/react";
+import GoogleLogin from "./GoogleLogin";
 
 const Signup = () => {
   const { register } = useContext(CreateContext);
@@ -173,13 +174,13 @@ const Signup = () => {
               >
                 {loading ? <Spinner /> : "Create Account"}
               </button>
-              <button
+              {/* <button
                 type="button"
                 className="w-full text-center py-3 rounded bg-red-400 text-white hover:bg-green-dark focus:outline-none my-1"
-                onClick={connectGoogle}
-              >
-                Sign-in With Google
-              </button>
+                
+              > */}
+                <button><GoogleLogin/></button>
+              {/* </button> */}
             </form>
           </div>
 

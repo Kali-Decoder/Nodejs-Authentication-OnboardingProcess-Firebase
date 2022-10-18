@@ -2,12 +2,12 @@ const { Users } = require("../config/firebase");
 const bcrypt = require("bcryptjs");
 const sendMail = require("../utils/nodemailer");
 const crypto = require("crypto");
+const googleOAuth = require('../utils/googleAuth');
 require("dotenv").config();
 var jwt = require("jsonwebtoken");
 // const sendEmail = require("../utils/nodemailer");
 // signup
 exports.signup = async (req, res) => {
-  
   let { fname, lname, email, password, cpassword, dob, phone, isSatisfyTerms } =
     req.body;
 
@@ -54,8 +54,8 @@ exports.signup = async (req, res) => {
   //   "From Zoth Io"
   // );
 
-  // res.redirect("/api/login");
-  res.status(200).json({ message: "Register Successfully " });
+  res.redirect("/api/login");
+  // res.status(200).json({ message: "Register Successfully " });
 };
 
 // signin
@@ -66,7 +66,7 @@ exports.signin = async (req, res) => {
     //   password: "password is required",
     // });
     // res.redirect("/api/login");
-    return res.status(404).json({message:"Please Fill All Details "})
+    return res.status(404).json({ message: "Pleas Fill All Details " });
   }
 
   let snapshot = await Users.get();
@@ -84,19 +84,42 @@ exports.signin = async (req, res) => {
       );
       req.session.token = token;
       // console.log(req.session);
-      // res.redirect(`/api/primary-market`);
-      
-      return res.status(200).json({message:"You Are Logged In"});
+      return res.redirect(`/api/primary-market`);
+
+      // return res.status(200).json({message:"You Are Logged In"});
     }
-   
-    // return res.redirect("/api/login");
-    return res.status(402).json({message:"You Are Not Authorised"})
+
+    return res.redirect("/api/login");
+    // return res.status(402).json({message:"You Are Not Authorised"})
   }
   req.session.isAuthorised = false;
-  return res.status(422).json({ message: "Account Not Exist Please Signup First" });
-  // res.redirect("/api/login");
-  // return res.status(402).json({message:"You Are Not Authorised"})
- 
+  // res.status(422).json({ message: "Account Not Exist Please Signup First" });
+  res.redirect("/api/login");
+  return;
+};
+
+
+exports.loginGoogle = async (req, res) => {
+  console.log("Console google");
+  try {
+    const code = req.body.code;
+    const profile = await googleOAuth.getProfileInfo(code);
+    console.log(code);
+    const user = {
+      googleId: profile.sub,
+      name: profile.name,
+      firstName: profile.given_name,
+      lastName: profile.family_name,
+      email: profile.email,
+      profilePic: profile.picture,
+    };
+    console.log(user);
+    // res.send({ user });
+    res.json({message:"Register"})
+  } catch (e) {
+    console.log(e);
+    res.status(401).send();
+  }
 };
 
 exports.forgetPassword = async (req, res) => {
@@ -111,8 +134,8 @@ exports.forgetPassword = async (req, res) => {
         expiresIn: 100,
       }
     );
-    req.session.forgotPasswordToken= token;
-    let link = `http://localhost:3000/api/reset-password/${token}`;
+    req.session.forgotPasswordToken = token;
+    let link = `http://localhost:5000/api/reset-password/${token}`;
     sendMail(req.body.email, "Password Reset Request", link);
     console.log(link);
     res.redirect("/api/login");
